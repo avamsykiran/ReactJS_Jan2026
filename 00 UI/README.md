@@ -494,7 +494,108 @@ CSS 3
                         counting from the last child
         p:nth-of-type(2)	
                         Selects every <p> element that is the second <p> element of its parent
-                        
+
+    Layouts and Responsive Design
+    ------------------------------------------------------------------------------------------------------
+        1. Layout Containers
+
+            In HTML, elements generally fall into two categories: **Block** and **Inline**. 
+            Understanding these is the starting point for any layout.
+
+            Block-level (`<div>`, `<h1>`, `<p>`, `<section>`):
+                * Always starts on a new line.
+                * Automatically takes up the full width available (100% of the parent).
+                * Respects all sides of the box model (width, height, padding, margin).
+
+
+            Inline (`<span>`, `<a>`, `<img>`):
+                * Does **not** start on a new line; it sits side-by-side with other content.
+                * Width and height properties are ignored.
+                * Only takes up as much width as the content inside it.
+
+            One can change this behavior using the `display` property (e.g., `display: inline-block;` allows an element to sit in a row but still respect width/height).
+        
+        2. Floats & Clearfix
+
+            Before Flexbox and Grid, `float` was the primary way to create columns. While less common today.
+
+            * The Float:    Moving an element to the `left` or `right`, 
+                            allowing text and other elements to wrap around it.
+
+            * The Problem:  When we float children inside a parent container, 
+                            the parent "collapses" (its height becomes 0) because it no longer "sees" the floated children as being inside it.
+
+            * The Clearfix: A CSS hack used to force the parent to expand and contain its floated children.
+
+                .container::after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
+
+        3. Flexbox Basics
+
+            Flexbox is a one-dimensional layout method for arranging items in rows or columns.
+                * Flex Container:   The parent element (`display: flex;`).
+                * Flex Items:       The immediate children of that parent.
+
+            Main Alignment Properties:
+                * `justify-content`: Aligns items on the **Main Axis** (Horizontal by default).
+                * `align-items`: Aligns items on the **Cross Axis** (Vertical by default).
+                * `flex-wrap`: Determines if items should stay on one line or wrap to the next if space runs out.
+        
+        4. Media Queries & Breakpoints
+
+            Media queries allow you to apply CSS only when certain conditions are met, such as a specific screen width.
+                * Syntax: `@media (min-width: 768px) { ... }`
+                * Breakpoints: 
+                    The specific widths where the layout "breaks" or needs to change. Common standards:
+                        * Mobile: Up to 480px
+                        * Tablet: 481px to 768px
+                        * Desktop: 769px and above
+            
+            Responsive Typography & Images
+
+            * Typography:   Use relative units like `rem` or `em` instead of `px`. 
+                            We can also use Viewport Width units: `font-size: 5vw;`.
+            * Images:       To prevent images from "overflowing" their container on small screens, always use:
+
+                img {
+                    max-width: 100%;
+                    height: auto;
+                }
+        
+        5. Mobile-First Design Concept
+
+            Mobile-first is a design strategy where you start by styling for the smallest screens first and then use media queries to add complexity as the screen gets larger.
+
+            Why use it?
+                1. Performance: Mobile devices often have slower connections; loading simpler CSS first is faster.
+                2. Focus: It forces you to prioritize the most important content.
+                3. Cleaner Code: We use `min-width` queries to "add" styles, which is generally more intuitive than "removing" or overriding styles with `max-width`.
+
+            Example Workflow:
+
+                /* 1. Base styles (Mobile) */
+                .container {
+                    width: 100%;
+                    padding: 10px;
+                }
+
+                /* 2. Tablet adjustments */
+                @media (min-width: 768px) {
+                    .container {
+                        width: 80%;
+                    }
+                }
+
+                /* 3. Desktop adjustments */
+                @media (min-width: 1024px) {
+                    .container {
+                        width: 1200px;
+                    }
+                }
+
 HTML & CSS Assignment
 ---------------------------------------------------------------------------
 
