@@ -21,6 +21,14 @@ ReactJS
     JavaScript/TypeScript eXtened Mark Up Language is an amulgamation of Javascript/Typescript
     and html.
 
+    Create a reactjs app
+    -----------------------------------------------------------
+
+    npm create vite     create the project stucture for the selected framework
+    npm i               will install all the dependencies listed in 'package.json'
+    npm run dev         is the npm script to execute the app in developer mode
+
+
     JSX/TSX
     ----------------------
 
@@ -58,14 +66,14 @@ ReactJS
             1. JSX/TSX is case sensitive.
             2. Html built-in elements are always written in lower-case
             3. Html attributes are always written in camelCase.
-            4. Custom Html Element s/ Components are written in PascalCase (init-caps).
+            4. Custom Html Elements / Components are written in PascalCase (init-caps).
             5. 'class' attributes is not permitted as it is a keyword in js/ts, instead we use
                 'className'
 
     ReactJS Components
     ----------------------------------------
 
-        In ReactJS a Component cna be developed in three ways.
+        In ReactJS a Component can be developed in three ways.
 
         (a) Class Components
         (b) Function Components
@@ -171,13 +179,6 @@ ReactJS
             }
         }
  
-    Create a reactjs app
-    -----------------------------------------------------------
-
-    npm create vite     create the project stucture for the selected framework
-    npm i               will install all the dependencies listed in 'package.json'
-    npm run dev         is the npm script to execute the app in developer mode
-
     Function Components
     -----------------------------------------------------------
         Function Component is any function that can return html-content.
@@ -221,7 +222,7 @@ ReactJS
                         setCount    is the writer to be sued to replace the value of count
 
                                 setX(10);       will change the valeu of x to 10
-
+                                
                                 setX( currentValue => (expressionThatCanRecomputeAndReturnANewValue) );
 
         useEffect       is a hook designed to work as an alternate to componentDidMount and componentDidUpdate 
@@ -249,6 +250,11 @@ ReactJS
             |- bootstrap/dist/js/bootstrap.bundle.js
 
         import these two files in the main.ts
+
+    Integrating Bootstrap with ReactBootstrap
+    -----------------------------------------------------------
+
+        npm i react-bootstrap
 
     Working with Forms in reactjs
     -----------------------------------------------------------

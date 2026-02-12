@@ -507,7 +507,6 @@ CSS 3
                 * Automatically takes up the full width available (100% of the parent).
                 * Respects all sides of the box model (width, height, padding, margin).
 
-
             Inline (`<span>`, `<a>`, `<img>`):
                 * Does **not** start on a new line; it sits side-by-side with other content.
                 * Width and height properties are ignored.
@@ -912,4 +911,32 @@ Typescript
 
         }
 
- 
+Assignment 
+-------------------------------------------------------------------------------------------
+
+Develop a simple CRUD operations Page,using typescript:
+
+    This page shall offer a dynamic statement management.
+
+    id    DateOfTransaction      Header               Credit      Debit
+    ===================================================================================
+            [____________]     [____________________]   [______]   [________]   (ADD)
+    ===================================================================================
+    1.      01-Jan-2026         Salary                  80,000                  (EDIT) (REMOVE)
+    2.      01-Jan-2026         Rent                                    5,000   (EDIT) (REMOVE)
+    2.      [ 01-Jan-2026 ]     [Fuel               ]   [______]   [1,000     ] (SAVE) (CANCEL)
+    ===================================================================================
+                                Totals                  80,000          6,000
+    ===================================================================================           
+                                Balance                                         74,000                     
+
+    stmt-app
+        lib
+            script.js
+        styles
+            style.css
+        pages        
+            page.html                        
+
+    Create a rest-api  using json-server.
+    Consume the rest api to fuel data into this statement page.            
