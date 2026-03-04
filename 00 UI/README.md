@@ -881,10 +881,95 @@ Typescript
     User Defined Data Types
 
         interface
+            is a user defiend data type with methods that are not implemented.
+
+            interface ComplexNumber{
+                real:number;
+                imaginary:number;
+            }
+
+            var z1 = {real:90,imaginary:-7}
+            var z2 = {real:4,imaginary:-7}
+            
+            interface Shape2D {
+                sides:number[];
+                area : () => number;
+            }
+
         class
-        aliases
-        enums
+            is a user defiend data type tha thas fields and methods.
+            classes support access modifiers private,public and protected.
+
+            class Employee {
+                private empId:number;
+                private fullName:string;
+                
+                constructor(empId:number,fullName:string,private sal:number){
+                    this.empId=empId;
+                    this.sal=sal;
+                    this.fullName=fullName;
+                }
+
+                travelAllowence(){
+                    return this.sal*0.12;
+                }
+
+                houseRentAllowence(){
+                    return this.sal*0.32;
+                }
+
+                totalSal(){
+                    return this.sal + this.houseRentAllowence() + this.travelAllowence();
+                }
+
+            }
+
+            var emp1 = new Employee(101,"Vamsy",89000)
+
         unions
+
+            var temp : number | string ;
+
+            temp = 90;
+            temp = "high";
+            temp = "low";
+            temp = 47;
+
+        aliases
+            is another name given to a datatype.
+
+            type num = number;
+
+            var x : num;
+
+            type alphaOrNumeric = number | string;
+
+            var itemId:alphaOrNumeric;
+            var temp:alphaOrNumeric;
+
+        enums      
+            is a set of possible values of a field.
+
+            gender  can be eitehr Male or Female
+            
+            enum Gender {
+                MALE, FEMALE
+            }
+
+            var gender : Gender;
+            gender = Gender.MALE;
+
+            enum Direction {
+                UO, DOWN, LEFT, RIGHT
+            }
+
+            var d1 : Direction;
+            d1 = Direction.UP;
+
+        types
+
+            type Point2D = {x:number,y:number};
+            type Point3D = {x:number,y:number,z:number};
 
 
     Standard tsconfig
@@ -911,7 +996,7 @@ Typescript
 
         }
 
-Assignment 
+Statement Page 
 -------------------------------------------------------------------------------------------
 
 Develop a simple CRUD operations Page,using typescript:
@@ -919,15 +1004,15 @@ Develop a simple CRUD operations Page,using typescript:
     This page shall offer a dynamic statement management.
 
     id    DateOfTransaction      Header               Credit      Debit
-    ===================================================================================
-            [____________]     [____________________]   [______]   [________]   (ADD)
-    ===================================================================================
+    =============================================================================================
+         [____________]     [____________________]   [________]   [________]   (ADD)
+    =============================================================================================
     1.      01-Jan-2026         Salary                  80,000                  (EDIT) (REMOVE)
     2.      01-Jan-2026         Rent                                    5,000   (EDIT) (REMOVE)
-    2.      [ 01-Jan-2026 ]     [Fuel               ]   [______]   [1,000     ] (SAVE) (CANCEL)
-    ===================================================================================
+    3.      [ 01-Jan-2026 ]     [Fuel               ]   [______]   [1,000     ] (SAVE) (CANCEL)
+    =============================================================================================
                                 Totals                  80,000          6,000
-    ===================================================================================           
+    =============================================================================================
                                 Balance                                         74,000                     
 
     stmt-app
@@ -938,5 +1023,4 @@ Develop a simple CRUD operations Page,using typescript:
         pages        
             page.html                        
 
-    Create a rest-api  using json-server.
-    Consume the rest api to fuel data into this statement page.            
+    Consume a rest-api created using json-server and use fetch-api for the same.

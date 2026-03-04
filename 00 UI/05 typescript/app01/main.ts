@@ -27,5 +27,3 @@ console.log(`${x} is a ${typeof x}`);
 x=false;
 console.log(`${x} is a ${typeof x}`);
 
-
-
