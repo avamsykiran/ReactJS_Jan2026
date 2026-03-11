@@ -1015,9 +1015,27 @@ Develop a simple CRUD operations Page,using typescript:
     =============================================================================================
                                 Balance                                         74,000                     
 
-    stmt-app
+    stmt-app-ts
+        model             
+            Txn.ts
+                export interface Txn {
+                    id:number;
+                    header:string;
+                    txnType:"CREDIT"|"DEBIT";
+                    amount:string;
+                    txnDate:string;
+                }
+                
         lib
-            script.js
+            script.ts
+                import type { Txn } from './Txn';
+
+                var txns : Txn[] = [];
+
+                //api-calls
+
+                //dom-manipulation-event-handling-code
+
         styles
             style.css
         pages        

@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import type { Txn } from "../models/Txn";
 
 const API_URL = "http://localhost:9999/txns";

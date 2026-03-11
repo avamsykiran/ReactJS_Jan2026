@@ -48,20 +48,14 @@ const TxnForm = ({ t, save, cancel }: { t?: Txn, save: (txn: Txn) => void, cance
                 }
             </div>
             <div className="col-2 text-center">
+                <button className="btn btn-sm btn-primary">
+                    <i className="bi bi-floppy" />
+                </button>
                 {
-                    txn.isEditable ? (
-                        <Fragment>
-                            <button className="btn btn-sm btn-primary">
-                                <i className="bi bi-floppy" />
-                            </button>
-                            <button className="btn btn-sm btn-danger ms-1" type="button"
-                                onClick={_e => cancel && cancel(txn.id)} >
-                                <i className="bi bi-x-circle" />
-                            </button>
-                        </Fragment>
-                    ) : (
-                        <button className="btn btn-sm btn-primary">
-                            <i className="bi bi-floppy" />
+                    txn.isEditable && (
+                        <button className="btn btn-sm btn-danger ms-1" type="button"
+                            onClick={_e => cancel && cancel(txn.id)} >
+                            <i className="bi bi-x-circle" />
                         </button>
                     )
                 }
