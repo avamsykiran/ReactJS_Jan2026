@@ -13,6 +13,7 @@ const Statement = () => {
     const [errMsg, setErrMsg] = useState<string | null>(null);
     const [txnsSummary, setTxnsSummary] = useState<TxnsSummary>({ totalCredit: 0, totalDebit: 0, balance: 0 });
 
+    //componentDidMount
     useEffect(() => {
         getAllTxns()
             .then(resp => setTxns(resp.data))
@@ -22,6 +23,7 @@ const Statement = () => {
             });
     }, []);
 
+    //componentDidUpdate - sideeffect - update summary if thers any change in txns
     useEffect(() => {
         if (txns && txns.length > 0) {
 

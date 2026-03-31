@@ -529,7 +529,8 @@ ReactJS
                 linked to a specific customer.
             3. Accounts nested table must appear only when the related customer row is clicked
                 like an ACCORDIAN
-            4. Against each account record, apart from edit and delete buttons, a statement button is needed that when clicked will navigate to statement page
+            4. Against each account record, apart from edit and delete buttons, a statement button is needed 
+                that when clicked will navigate to statement page
 
         Statement page
             1. is the page that supports CRUD operatiosn on transactions

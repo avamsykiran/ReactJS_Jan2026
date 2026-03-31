@@ -1,8 +1,8 @@
-let userName : string;
+var userName : string;
 userName="Vamsy Kiran";
 console.log("Hello " + userName );
 
-let age : number;
+var age : number;
 age = 67;
 let isEligibleToVote : boolean;
 isEligibleToVote = age>=18;
@@ -16,7 +16,7 @@ const sum = function(a:number,b:number):number {
 
 console.log(sum(10,56));
 
-let x : any;
+var x : any;
 
 x="Vamsy";
 console.log(`${x} is a ${typeof x}`);

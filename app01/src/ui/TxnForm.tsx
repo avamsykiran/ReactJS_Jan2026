@@ -1,7 +1,13 @@
-import { Fragment, useState, type SubmitEvent } from "react";
+import {  useState, type SubmitEvent } from "react";
 import type { Txn } from "../models/Txn";
 
-const TxnForm = ({ t, save, cancel }: { t?: Txn, save: (txn: Txn) => void, cancel?: (id: number) => void }) => {
+type TxnFormProps = { 
+    t?: Txn, 
+    save: (txn: Txn) => void, 
+    cancel?: (id: number) => void 
+};
+
+const TxnForm = ({ t, save, cancel }: TxnFormProps) => {
 
     const [txn, setTxn] = useState<Txn>(
         t ? { ...t } :

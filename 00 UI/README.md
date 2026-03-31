@@ -851,7 +851,7 @@ Typescript
 
     Typescript = JavaScript + Types
 
-    Creating a project:
+    Creating a ts-project:
 
         npm init -y
         npm i typescript 
@@ -868,13 +868,34 @@ Typescript
         string
         boolean
         bigint
-        symbol
+
+        symbol          //is used to handle UUID's 
+                        const photoId:symbol = Symbol("someKey")
+
         void
 
     Special Datatypes
 
         any
-        unknown        
+                        const f1 = (x:any) => {
+                            //developer is sure that no issues will occur 
+                            //whatever may be the type of value of x.
+                        }
+        
+        unknown                                
+                        const f1 = (x:unknown) => {
+                            //developer is NOT SURE that an issue will NOT occur 
+                            //based on the type of value of x.
+                            //and for this reason, the type of 'x' has to be CHECKED before it is consumed
+                            //and compiler 'tsc' will raise an error if the type checking is not done
+
+                            if( typeof(x) === 'number'){
+
+                            }else if( typeof(x) === 'string'){
+                            
+                            }
+                        }
+
         undefined
         null
 
@@ -905,8 +926,7 @@ Typescript
                 private fullName:string;
                 
                 constructor(empId:number,fullName:string,private sal:number){
-                    this.empId=empId;
-                    this.sal=sal;
+                    this.empId=empId;                    
                     this.fullName=fullName;
                 }
 
@@ -960,7 +980,7 @@ Typescript
             gender = Gender.MALE;
 
             enum Direction {
-                UO, DOWN, LEFT, RIGHT
+                UP, DOWN, LEFT, RIGHT
             }
 
             var d1 : Direction;
@@ -1024,21 +1044,18 @@ Develop a simple CRUD operations Page,using typescript:
                     txnType:"CREDIT"|"DEBIT";
                     amount:string;
                     txnDate:string;
-                }
-                
+                }                
         lib
             script.ts
                 import type { Txn } from './Txn';
 
-                var txns : Txn[] = [];
-
-                //api-calls
+                var txns : Txn[] = [];               
 
                 //dom-manipulation-event-handling-code
-
+        
         styles
             style.css
         pages        
-            page.html                        
+            index.html                        
 
-    Consume a rest-api created using json-server and use fetch-api for the same.
+    

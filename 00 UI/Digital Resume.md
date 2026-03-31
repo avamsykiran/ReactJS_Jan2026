@@ -1,13 +1,34 @@
 Digital Resume
--------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 
-    1. It is a SPA
-    2. Shall have Bio, Educational Qual, Skill Set, Experience, Contact Me Form, 
-    3. NavBar with links to these bookmarks on the same page
-    4. Use Accordations, Badges, Progress Bar, all other bootstrap componnets
-        as many as possible.
-    5. it should be responsive.
-    6. SEO 
+    HTML5, CSS 3, Bootstrap
+
+    1. Responsive
+    2. Images, InfoGraphics, Form element - Contact Form (no form submition expected)
+    3. All possible bootstrap controls like accordians, pills, tabs, cards ..etc
+
+    DO NOT USE ANY FRAMEWORK OTHER THAN THE ONE(S) MENTIONED.
+
+
+Dynamic Statement Page 
+---------------------------------------------------------------------------------
+
+    Javascript - ES6
+
+    TxnId   TxnDate     Header      Credit      Debit
+    --------------------------------------------------------------------------------
+            [______]    [______]    [______]    [______]    [ADD]
+    --------------------------------------------------------------------------------
+    1       1-Jan-2026  Salary      85000                   [REMOVE]
+    2       1-Jan-2026  Rent                    8500        [REMOVE]
+    3       2-Jan-2026  Fuel                     500        [REMOVE]
+    --------------------------------------------------------------------------------
+                        Totals      85000       9000
+    --------------------------------------------------------------------------------
+                        Balance                76000
+    --------------------------------------------------------------------------------
+
+    the data must be feed into and loaded from 'localStorage'
 
 Typing Skill Assessment
 -------------------------------------------------------------------------------------
