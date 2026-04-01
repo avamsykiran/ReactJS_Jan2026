@@ -2,25 +2,30 @@ import { useDispatch, useSelector } from "react-redux";
 import MsgBox from "./MsgBox";
 import { Link } from "react-router";
 import type { AppDispatch, RootState } from "../state/AppStore";
-import { deleteContact } from "../state/ContactsSlice";
+import { deleteContact, loadContacts } from "../state/ContactsSlice";
 import type { Contact } from "../models/Contact";
+import { useEffect } from "react";
 
 const ContactsList = () => {
 
-    const contacts : Contact[] = useSelector( (state:RootState) => state.contactsSlice.contacts )
-    const inProgress : boolean|undefined = useSelector( (state:RootState) => state.contactsSlice.inProgress )
-    const errMsg : string|undefined = useSelector( (state:RootState) => state.contactsSlice.errMsg )
-    const dispatch : AppDispatch = useDispatch();
+    const contacts: Contact[] = useSelector((state: RootState) => state.contactsSlice.contacts)
+    const inProgress: boolean | undefined = useSelector((state: RootState) => state.contactsSlice.inProgress)
+    const errMsg: string | undefined = useSelector((state: RootState) => state.contactsSlice.errMsg)
+    const dispatch: AppDispatch = useDispatch();
 
-    const del = (id:number) => dispatch(deleteContact(id));
+    useEffect(()=>{
+        dispatch(loadContacts())
+    },[]);
+
+    const del = (id: number) => dispatch(deleteContact(id));
 
     return (
         <section className="col-sm-10 mx-auto p-2 m-2">
             <h4>Contacts List</h4>
 
-            { inProgress && <MsgBox msg="Please wait while loading" type="info" /> }
-            
-            { errMsg && <MsgBox msg={errMsg} type="error" /> }
+            {inProgress && <MsgBox msg="Please wait while loading" type="info" />}
+
+            {errMsg && <MsgBox msg={errMsg} type="error" />}
 
             {
                 contacts.length === 0 ?
