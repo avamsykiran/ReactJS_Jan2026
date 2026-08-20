@@ -1,4 +1,4 @@
-//Template Literals
+//Template Literals or interpolstiomn
 
 let c1 = {cid:101,name:'Vamsy',mobile:'9052224753',email:'vamsy@gmail.com',dob:new Date('1987-01-01')};
 console.log("Hello "+c1.name+"! It is good to call you at "+c1.mobile);
@@ -23,6 +23,15 @@ const printAge = ({name,dob}) => {
 };
 
 printAge(c1);
+
+/*
+const printAge = (name,dob) => {
+    let age = (new Date()).getFullYear()-dob.getFullYear();
+    console.log(`Hello ${name}! You are ${age} years old`);
+};
+
+printAge(c1.name,c1.dob);
+*/
 
 var nums=[1,2,3,4,5,6];
 var [x,y,,z] = nums;

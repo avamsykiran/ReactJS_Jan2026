@@ -24,3 +24,4 @@ console.log(today-indepenceDay)
 console.log(today>indepenceDay)
 console.log(today.getFullYear());
 console.log(today.getHours());
+

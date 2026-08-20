@@ -509,6 +509,95 @@ ReactJS
 
         create script "start":"json-server --port 9999 --watch ./data.json" in package.json
 
+    Memorizaion
+    ------------------------------------------------
+        In React, memoization is all about performance optimization. At its core, it’s a strategy to avoid doing the same work twice. By "remembering" the results of expensive calculations or preventing unnecessary component re-renders, the application is kept snappy.
+
+        1. React.memo: Component Memoization
+            By default, when a parent component re-renders, all of its children re-render too—even if their props haven't changed. React.memo is a Higher Order Component (HOC) that prevents this. React performs a "shallow comparison" of the props. 
+            If the props are the same as last time, React skips rendering the component and reuses the last rendered result.
+
+        2. useMemo: Value Memoization
+            useMemo is a Hook that lets us cache the result of a calculation between re-renders.
+
+        3. useCallback: Function Memoization
+            useCallback is a Hook that lets you cache a function definition itself between re-renders.
+
+            In JavaScript, function(){} === function(){} is false. Every time a component re-renders, any function defined inside it is a "new" function. This causes child components wrapped in React.memo to re-render anyway because their "prop" (the function) looks different.
+
+            The Solution is useCallback which ensures that the function reference stays the same unless its dependencies change.
+
+        For Example 
+
+            Unoptimized Version
+
+                const ItemList = ({ items, onItemClick }) => {                 
+                    console.log("ItemList Rendered"); // logs whenever ProductPage is re-rendered
+                    return (
+                        <ul>
+                         {items.map(i => <li key={i.id} onClick={onItemClick}>{i.name}</li>)}
+                        </ul>
+                    );
+                };
+
+                const ProductPage = ({ items, theme }) => {
+                    const [count, setCount] = useState(0);
+
+                    // 1. Expensive calculation runs on EVERY click of "Increment"
+                    const visibleItems = items.filter(item => item.price < 100);
+
+                    // 2. This function is "new" on every render, breaking child memoization
+                    const addToCart = () => {
+                        console.log("Added!");
+                    };
+
+                    return (
+                        <div className={theme}>
+                            <h1>Count: {count}</h1>
+                            <button onClick={() => setCount(count + 1)}>Increment</button>
+                            
+                            <ItemList items={visibleItems} onItemClick={addToCart} />
+                        </div>
+                    );
+                }
+
+            Optimized Version
+
+                // 1. Wrap the child in React.memo
+                const ItemList = React.memo(({ items, onItemClick }) => {
+                    // Only logs when items or onItemClick change
+                    console.log("ItemList Rendered"); 
+
+                    return (
+                        <ul>
+                        {items.map(i => <li key={i.id} onClick={onItemClick}>{i.name}</li>)}
+                        </ul>
+                    );
+                });
+
+                function ProductPage({ items, theme }) {
+                    const [count, setCount] = useState(0);
+
+                    // 2. Memoize the filtered list
+                    const visibleItems = useMemo(() => {
+                        return items.filter(item => item.price < 100);
+                    }, [items]); // Only re-runs if 'items' prop changes
+
+                    // 3. Memoize the function reference
+                    const addToCart = useCallback(() => {
+                        console.log("Added!");
+                    }, []); // Reference stays the same forever
+
+                    return (
+                        <div className={theme}>
+                            <h1>Count: {count}</h1>
+                            <button onClick={() => setCount(count + 1)}>Increment</button>
+                            
+                            <ItemList items={visibleItems} onItemClick={addToCart} />
+                        </div>
+                    );
+                }
+
     BudgetTrackingApp
     ------------------------------------------------
 
@@ -516,10 +605,22 @@ ReactJS
         |<-multiple-> Accounts
                         |<-multiple-> Transactions
 
-    Customer        CRIN, Name, Mobile, MailId
-    Account         AccNum, Type (Savings|Current), CurrentBalance
-    Transaction     TxnId, TxnDate, Header, Amount, TxnType
+    Customer        id (CRIN), Name, Mobile, MailId
+    Account         id (AccNum), Type (Savings|Current), CurrentBalance
+    Transaction     id (TxnId), TxnDate, Header, Amount, TxnType
     
+    sample json 
+        {
+            "customer":[
+                {"id":1,"name":"Vamsy","mobile":"9052224753","mailId":"vamsy@gmail.com"}
+            ],
+            "accounts":[
+                {"id":1,"type":"SAVINGS",currentBalance:0,"crin":1}
+            ],
+            "txns":[
+                
+            ]
+        }
     Links on the navbar
         /home   that brigns up the customers page.
 
@@ -531,11 +632,39 @@ ReactJS
                 like an ACCORDIAN
             4. Against each account record, apart from edit and delete buttons, a statement button is needed 
                 that when clicked will navigate to statement page
+            5. Use a bootstrap model to display custoemr-form or account-form for
+                add or edit operations
 
         Statement page
             1. is the page that supports CRUD operatiosn on transactions
             2. Any add/update/delete operation on transaction must
                 trigger an update on the currentBalance of the related account.
 
+Handle a sequence of api calls - RTK - thunk
+-------------------------------------------------------
 
+    "Where is the brain?"
 
+        Are we handling the bussiness logic on the UX-app or the rest-api-server?
+
+        in case - BL - (on adding or deleting or updating a txn, currentBalence update) is handled
+        by the api-server =====> then we jsut need to update the state on RTK for both 
+        txn-slcie and accounts-slice.
+
+        in our case, we depend on "json-server" for rest-api which is absolutly dumb and handles NO-BL,
+        brain is at the UX-app
+
+        so, in the addTxnAction
+
+            const txnApiResp = await axios.post(txnApi,txn);
+
+            //compute the currentBalacne
+
+            const accApiResp = await axios.patch(accApi + "/" + txn.accId,{currentBal:cb});
+
+            // return both the txn (to be used by txn-slice) and {accid,currentBal} (to be used by acc-slice)
+
+        Now to update the 'state' on RTK
+
+            we can add extrReducer on addTxnAction.fullfilled   in the txns-sclice   to push txn into state.txns
+            we can also add extrReducer on addTxnAction.fullfilled   in the acc-sclice   to change the state.accs[index].currentBal

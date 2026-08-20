@@ -13,9 +13,9 @@ const ContactsList = () => {
     const errMsg: string | undefined = useSelector((state: RootState) => state.contactsSlice.errMsg)
     const dispatch: AppDispatch = useDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(loadContacts())
-    },[]);
+    }, []);
 
     const del = (id: number) => dispatch(deleteContact(id));
 

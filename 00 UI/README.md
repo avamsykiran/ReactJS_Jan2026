@@ -299,7 +299,7 @@ CSS 3
 
                     <h3 class="important highlight"></h3>
 
-                    <tr class="important"></tr>
+                    <tr class="highlight"></tr>
 
             4. Id
                     if a style swhould be applied to an elemnt hving 
@@ -595,6 +595,75 @@ CSS 3
                     }
                 }
 
+HTML and CSS - Semantics, Accessibility (a11y), and Grid Systems
+-----------------------------------------------------------------------------------------
+
+    HTML5 semantics, accessible rich internet applications (ARIA), and modern CSS Grid layout form the cornerstone of scalable, inclusive web engineering.
+    
+    Semantics: Structural HTML5
+
+        Semantic elements provide structural meaning to content rather than defining visual appearance. 
+        Browsers, screen readers, and web crawlers consume this hierarchy to build the Accessibility Tree.
+
+        * <header> vs <nav> vs <main> vs <footer>: 
+            Defines the landmark structure. 
+            <main> must be unique to the document page (excluding repeating headers/footers).
+
+        * <article> vs <section>: 
+            An `<article>` represents self-contained, independently distributable content (e.g., blog post, cards). 
+            A `<section>` groups related thematic content and should ideally feature an `h1`-`h6` heading.
+
+        * <div> / <span>: 
+            Non-semantic containers. Use strictly when no semantic alternative exists and formatting/styling is the sole objective.
+
+    
+    Accessibility (a11y) & WCAG Guidelines
+
+        Web accessibility ensures equivalent experiences for users with sensory, motor, or cognitive disabilities.
+
+        Key Accessible Patterns
+
+            * Focus Management & Keyboard Navigation: 
+                All interactive elements (`<button>`, `<a>`, `<input>`) must be accessible using `Tab` and `Shift + Tab`. Visible focus indicators (`:focus-visible`) should never be completely removed without a custom replacement.
+
+            * Color Contrast (WCAG 2.1 AA):
+                Normal Text: Minimum contrast ratio of 4.5:1 against the background.
+                Large Text (≥18pt or 14pt bold): Minimum contrast ratio of 3:1.
+
+    
+    Modern Layout: CSS Grid Systems
+
+        CSS Grid provides a two-dimensional grid-based layout system (rows and columns simultaneously), eliminating legacy float/flexbox hacks for main page frameworks.
+
+        Core Grid Concepts
+
+        * Fractional Units (`fr`): Represents a fraction of the available space in the grid container.
+        * Responsive Track Sizing (`minmax()`, `repeat()`, `auto-fit` vs `auto-fill`): Enables intrinsic layouts without requiring media queries.
+
+            /* Responsive, No-Media-Query Grid Layout */
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            /* Explicit Named Grid Areas */
+            .page-layout {
+                display: grid;
+                grid-template-areas:
+                    "header header"
+                    "sidebar main"
+                    "footer footer";
+                grid-template-columns: 250px 1fr;
+                grid-template-rows: auto 1fr auto;
+                min-height: 100vh;
+            }
+
+            .page-header  { grid-area: header; }
+            .page-sidebar { grid-area: sidebar; }
+            .page-main    { grid-area: main; }
+            .page-footer  { grid-area: footer; }
+
 HTML & CSS Assignment
 ---------------------------------------------------------------------------
 
@@ -626,9 +695,8 @@ JavaScript (ES6)
                 a. variables need not be declared
                 b. even if we declare using var/let/const keywords, we dont specfiy the datatype
                 c. the type of a variable is decided after it is assigned a value
-                d. a variable can hold data of different types.
-                
-               number,strings,null,array,function,undefined
+                d. a variable can hold data of different types.                
+                        number,strings,null,array,function,undefined
 
         Datatypes
         Variables and scopes (let,var), operators
@@ -834,6 +902,11 @@ NodeJS
 
     Javascript Modules
 
+        whiule in native-javascript, we had no modularizaton.
+
+        RequireJS and CommonJs were two different standards introduced by third-party players
+        for modularization.
+
         ES6 - ECMAScript Modules (esm)
 
         Each .js file is a module
@@ -877,27 +950,33 @@ Typescript
     Special Datatypes
 
         any
-                        const f1 = (x:any) => {
+                        const swap = (x:any,y:any) => {
                             //developer is sure that no issues will occur 
                             //whatever may be the type of value of x.
+
+                            var temp : any = x;
+                            x = y;
+                            y = temp;
                         }
         
         unknown                                
-                        const f1 = (x:unknown) => {
+                        const len = (x:unknown)  => {
                             //developer is NOT SURE that an issue will NOT occur 
                             //based on the type of value of x.
                             //and for this reason, the type of 'x' has to be CHECKED before it is consumed
                             //and compiler 'tsc' will raise an error if the type checking is not done
 
                             if( typeof(x) === 'number'){
-
+                                return `${x}`.length();
                             }else if( typeof(x) === 'string'){
-                            
+                                return x.length();
+                            }else {
+                                throw "length may not be relevant for this value";
                             }
                         }
 
-        undefined
-        null
+        undefined           the "salary" proeprty on a Consumer object is undefiend.
+        null                the "referalBenifit" property on a Consumer object can be null.
 
     User Defined Data Types
 
@@ -911,14 +990,20 @@ Typescript
 
             var z1 = {real:90,imaginary:-7}
             var z2 = {real:4,imaginary:-7}
+            var z3 = {real:4,imaginary:-7,alpha:99}
+
+            function addComplexNumbers(a:ComplexNumber,b:ComplexNumber){
+                //code will go
+                //z1 and z2 are acceptable valeus into this function but z3 is not.
+            } 
             
             interface Shape2D {
                 sides:number[];
-                area : () => number;
+                area : () => number; //methods with no impl;
             }
 
         class
-            is a user defiend data type tha thas fields and methods.
+            is a user defiend data type that has fields and methods.
             classes support access modifiers private,public and protected.
 
             class Employee {
@@ -1014,6 +1099,30 @@ Typescript
 
         const funName = function(param1:type,param2:type) : returntype {
 
+        }
+
+    '!' and '?' operator
+        
+        function f(c:Consumer){
+            var doorNum = c.address.doorNumber; //chance of null-error if address is null or undefined.
+        }
+
+        function f(c:Consumer){
+            var doorNum = c.address!.doorNumber; //doorNum is assigned null if address is null or undefined           
+        }
+
+        function f(c:Consumer){
+            var doorNum = c.address?.doorNumber; //doorNum is assigned undefined if address is null or undefined
+        }
+
+    '?' for optional fields
+
+        interface Employee{
+            empId:number;       //this field can not be undefiend or null
+            fullName:String;    //this field can not be undefiend or null
+            salary:String;      //this field can not be undefiend or null
+            bonus?:number; //here bonus is an optional field or a field that can be undefined but not null
+            laptopId:Symbol | null;  //this field can not be undefiend but can be null
         }
 
 Statement Page 

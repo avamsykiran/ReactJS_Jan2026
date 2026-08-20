@@ -3,7 +3,7 @@
 var emp1 = {id:101,name:"Vamsy",sal:45600};
 console.log(emp1);
 
-//classes
+//classes - ES6
 
 class Emp{
             

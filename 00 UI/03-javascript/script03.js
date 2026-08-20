@@ -1,12 +1,12 @@
 
 function myFunction(){
     a = 45; //hoisting
-    var b = 46;
+    var b = 46; //function scoped
     console.log(a);
     console.log(b);
     if(true){
-        var c = 47;
-        let d = 48;
+        var c = 47; //function scoped
+        let d = 48; //block scoped
         console.log(c);
         console.log(d);
     }

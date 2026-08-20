@@ -8,6 +8,8 @@ const greetUser = function(user){
     console.log("Hello "+user);
 }
 
+//ECMA Script - ES6
+
 const welcome = () => "Hai! You are welcome!"; //arrow function having no-args and returns a string
 
 const welcomeUser = user => "Hello! "+user+" you are welcome"; //arrow function having an arg and returns a string
