@@ -185,7 +185,7 @@ ReactJS
 
         const WelcomeSection = () => (
             <section>
-                <h3>Welcome All, Good to see you usign my App. </h3>
+                <h3>Welcome All, Good to see you using my App. </h3>
             </section>
         );
 
@@ -221,9 +221,11 @@ ReactJS
                         count       is the reader to the get the current value of the state field
                         setCount    is the writer to be sued to replace the value of count
 
-                                setX(10);       will change the valeu of x to 10
+                                setCount(10);       will change the valeu of count to 10
                                 
-                                setX( currentValue => (expressionThatCanRecomputeAndReturnANewValue) );
+                                setCount( currentValue => (expressionThatCanRecomputeAndReturnANewValue) );
+
+                                setCount( cv => cv*2 );
 
         useEffect       is a hook designed to work as an alternate to componentDidMount and componentDidUpdate 
                         in a function components.
@@ -283,6 +285,28 @@ ReactJS
             here, we create something called 'ref' s , where
             each ref is mapped to one form-input-controlled, which
             later cna be used to extract data from the fomr-input-control.
+
+             const Welcome = () => {
+
+                const [userName,setUserName] = useState<string>("");
+
+                const userNameRef = useRef();
+
+                cosnt handleSubmit = e => {
+                    e.preventDefault();
+                    setUserName(userNameRef.value);
+                }
+                
+                return (
+                    <h3>Welcome! {userName} </h3>
+
+                    <form onSubmit={handleSubmit}>
+                        <label>User Name: </label>
+                        <input type="text" ref={userNameRef} />                        
+                        <button>Submit</button>
+                    </form>
+                );
+            }
 
         Controlled Components are 99% prefered than UnControlled component inspiteof
         a little complexity involved, and thats due to the memory-weight.

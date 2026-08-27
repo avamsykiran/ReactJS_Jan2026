@@ -1076,6 +1076,21 @@ Typescript
             type Point2D = {x:number,y:number};
             type Point3D = {x:number,y:number,z:number};
 
+            interface User {
+                userId:number;
+                userName:string;
+                password:string;
+                roles:string[];
+            }
+
+            function registeration(userData:{userName:string,password:string,confirmPassword:string}){
+
+            }
+
+            function login(userCredits:{userName:string,password:string}){
+
+            }
+
 
     Standard tsconfig
 

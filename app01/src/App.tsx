@@ -1,14 +1,27 @@
-import { Fragment } from "react/jsx-runtime";
-import Header from "./ui/Header";
-import Statement from "./ui/Statement";
+import { Component } from "react";
+import Welcome from "./components/Welcome";
+import Counter from "./components/Counter";
+import Header from "./components/Header";
+import ShoppingCounter from "./components/ShoppingCounter";
 
-const App = () => (
-  <Fragment>
-    <Header appTitle="Budget Tracker" />
-    <div className="container-fluid p-2">
-      <Statement />
-    </div>
-  </Fragment>
-);
+class App extends Component<{}, {}> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <>
+        <Header appTitle="My First React App" />
+        <main className="container">
+          <Welcome />
+          <Counter />
+          <ShoppingCounter />
+        </main>
+      </>
+    );
+  }
+}
 
 export default App;
