@@ -242,21 +242,7 @@ ReactJS
                             fields in the array are modified
                             equivalent to componentDidUpdate
 
-    Integrating Bootstrap with React
-    -----------------------------------------------------------
-
-        npm i bootstrap
-
-        node_modules
-            |- bootstrap/dist/css/bootstrap.min.css
-            |- bootstrap/dist/js/bootstrap.bundle.js
-
-        import these two files in the main.ts
-
-    Integrating Bootstrap with ReactBootstrap
-    -----------------------------------------------------------
-
-        npm i react-bootstrap
+   
 
     Working with Forms in reactjs
     -----------------------------------------------------------
@@ -325,6 +311,63 @@ ReactJS
                 ....
             </p>
 
+    Integrating Bootstrap with React
+    -----------------------------------------------------------
+
+        Introduction
+
+            Bootstrap i s a css library. It offers ready to use responsive layouts.
+            It also offers ready to use components like Modals, Navigation bars, cards, Headers , Footers ..etc.,
+
+            Bootstrap Grid System
+
+                The page is layed out as a set of rows and each ros has 12 units in width.
+                meaning each row can acomidate 12 cols max.
+
+                Screen size is available in four , lg, md, sm, xs (large, medium, small and extra small).
+
+                col-lg-1    1 out of 12 units in width on large screens only, 
+                            and occupies full screen width on other screens
+
+                col-md-1    1 out of 12 units in width on large and medium screens only, 
+                            and occupies full screen width on other screens
+
+                col-sm-1
+
+                col-xs-1
+
+            Bootstrap Containers
+
+                .container          90% of the width on large and medium screens and 100% on all screens.
+                .container-fluid    100% width on screens.
+
+            Utitlity class
+
+                are classes used to control backgroudn-color, width, margin, padding ..etc.,
+
+                p-1 to p-5
+                m-1 to m-5
+                ...etc., 
+
+        npm i bootstrap
+
+        node_modules
+            |- bootstrap/dist/css/bootstrap.min.css
+            |- bootstrap/dist/js/bootstrap.bundle.js
+
+        import these two files in the main.ts
+
+        <div className="row"> </div>
+
+    Integrating Bootstrap with ReactBootstrap
+    -----------------------------------------------------------
+
+        npm i react-bootstrap bootstrap
+
+        <Row></Row>
+    
+        https://react-bootstrap.netlify.app/docs/getting-started/introduction
+        
     Routing
     -----------------------------------------------------------
 
@@ -355,8 +398,58 @@ ReactJS
             useParam()          returns an associative array of all path parameters and query parameters, if any
 
             useNavigate()       returns a method, that can be used to programatically navigate between components.
+ 
+    Form Hook Library
+    -----------------------------------------------------------
 
-    State Management using Redux ToolKit
+        this is a library that offer a hook called "useForm"
+
+        useForm     this hook takes inital/default values of the form-fields as arg.
+                    returns a form-managemnt-object having methods like
+                        register each input-field with the state-field
+                        method to handle form-submition
+                        ..etc.,
+
+        npm i react-hook-form
+
+    YUP Library for form validations
+    -----------------------------------------------------------
+
+        is a library that is used force an entity-schema (validation rules and default valeu on
+        to a form)
+
+            const validationSchema = Yup.object().shape({
+                username: Yup.string()
+                    .required('Username is required')
+                    .min(3, 'Username must be at least 3 characters'),
+                email: Yup.string()
+                    .required('Email is required')
+                    .email('Invalid email format'),
+                password: Yup.string()
+                    .required('Password is required')
+                    .min(6, 'Password must be at least 6 characters'),
+                confirmPassword: Yup.string()
+                    .required('Please confirm your password')
+                    // Use oneOf to match another field
+                    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+                acceptTerms: Yup.boolean()
+                    .oneOf([true], 'You must accept the terms and conditions')
+            });
+                
+        @hookform/resolvers     is another library to bridge between form-hook and yup.
+
+            const {
+                register,
+                handleSubmit,
+                formState: { errors },
+            } = useForm({
+                resolver: yupResolver(validationSchema), // Connects Yup to React Hook Form
+                mode: 'onTouched', // Validates when a user leaves an input
+            });
+        
+        npm i react-hook-form yup @hookform/resolvers
+
+    Global State Management using Redux ToolKit
     -----------------------------------------------------------
 
         Redux
@@ -372,11 +465,14 @@ ReactJS
                         relevent components automatically
 
             reducer(s)  is a function that modifies the data in the store when reqeusted
-                        by a dispatch
+                        by a component through dispatching an action.
 
             action      is a object or function that indicates
                             what-operation-has-to-be-done (refered as action-type)
                             what-is-the-data-needed-for-that-operation (refered as payload)
+
+            dispatch    is a built-in function used by components to
+                        send 'actions' to the reducers.
 
             store -------------------------------------------
                 ↑               ↓                           ↓
