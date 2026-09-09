@@ -446,7 +446,7 @@ CSS 3
 
         s1,s2	applies to elements that match both selectors
         s1 s2	applies to all elements that match s2 and are inside s1
-        s1>s2	applies to all elements that match s2 whose parent is s1
+        s1>s2 	applies to all elements that match s2 whose parent is s1
         s1+s2	applies to all elements that match s2 and are immediately after s1
         s1~s2	applies to every element that match s2 and is preceded by s1
 
