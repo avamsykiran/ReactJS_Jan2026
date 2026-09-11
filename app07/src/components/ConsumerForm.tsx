@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { addConsumer, updateConsumer } from "../lib/services/consumersSlice";
 import { useNavigate, useParams } from "react-router";
 import { selectConsumerById } from "../lib/services/selectors";
+import type { RootState } from "../lib/services/appStore";
 
 function ConsumerForm() {
 
     const { id } = useParams();
 
-    const oldConsumer = useSelector(selectConsumerById(Number(id)));
+    const oldConsumer = useSelector((state:RootState) => selectConsumerById(state,Number(id)));
 
     const isEditing = id ? true : false;
 

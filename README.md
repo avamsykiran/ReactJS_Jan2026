@@ -449,6 +449,22 @@ ReactJS
         
         npm i react-hook-form yup @hookform/resolvers
 
+    Global State Management using Context API
+    ----------------------------------------------------------
+
+        React Context API is a built-in state management feature introduced to solve one core problem: prop drilling.
+
+        It allows you to share state globally across your component tree without explicitly passing props down through every single level of intermediate components.
+
+        Anatomy of the Context API
+            The Context system relies on three core concepts:
+
+            createContext(): Creates the Context object containing a default value.
+
+            Provider: A wrapper high-order component that supplies the state to its children.
+
+            useContext(): A React Hook used by child components to read and consume the state.       
+
     Global State Management using Redux ToolKit
     -----------------------------------------------------------
 
