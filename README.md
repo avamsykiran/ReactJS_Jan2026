@@ -661,6 +661,87 @@ ReactJS
                     removeMany(state, action)   Deletes multiple records based on an array of IDs. 
                     removeAll(state)            Completely empties the `ids` array and `entities` map.                
 
+    Building a REST API with Express.js and Prisma and SQLite
+    ------------------------------------------------------------
+
+        Express JS
+
+            Express.js is the de facto standard web framework for Node.js. It is a minimal, flexible, and unopinionated framework designed to build single-page, multi-page, and hybrid web applications, as well as RESTful APIs.
+
+                import express, { Request, Response, NextFunction } from 'express';
+
+                const app = express();
+
+                // 1. Built-in Middleware (Parses JSON request bodies)
+                app.use(express.json());
+
+                // 2. Application-Level / Custom Logger Middleware
+                app.use((req: Request, _res: Response, next: NextFunction) => {
+                    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+                    next(); // Pass control to the next handler
+                });
+
+                // 3. Route Handler (Terminal Middleware)
+                app.get('/health', (_req: Request, res: Response) => {
+                    res.status(200).json({ status: 'OK' });
+                });
+
+                // 4. Global Error Handling Middleware (Takes 4 arguments)
+                app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+                    console.error(err.stack);
+                    res.status(500).json({ error: 'Internal Server Error' });
+                });                
+
+        Prisma ORM
+
+            Prisma is an open-source Next-Gen Object-Relational Mapper (ORM) for Node.js and TypeScript.
+
+            Prisma consists of three main components:
+                
+                Prisma Schema (schema.prisma): The central configuration file where we declare our database connection, generators, and data models using Prisma Schema Language (PSL).  
+
+                    model User {
+                        id        Int      @id @default(autoincrement())
+                        email     String   @unique
+                        role      Role     @default(USER)
+                        posts     Post[]
+                        createdAt DateTime @default(now())
+                    }
+                
+                Prisma Client: An auto-generated, type-safe query builder customized specifically to our schema. It generates TypeScript types on the fly, eliminating auto-complete guesses and standard runtime database bugs.
+                
+                Prisma Migrate: A declarative schema migration tool that maps our Prisma schema to database migrations (SQL files) while automatically keeping data in sync. 
+
+
+        Project Setup
+
+            # Create project folder and navigate into it
+            md retailer-api
+            cd retailer-api
+
+            # Initialize Node.js project
+            npm init -y
+
+            # Install main dependencies
+            npm install express @prisma/client dotenv
+            npm install better-sqlite3 @prisma/adapter-better-sqlite3
+
+            # Install TypeScript and dev dependencies
+            npm install -D typescript @types/node @types/express prisma tsx
+            npm install -D @types/better-sqlite3
+
+            # Generate the TypeScript configuration file:
+            npx tsc --init                        
+
+        Prisma ORM Setup
+
+            npx prisma init 
+
+        Steps Ahead
+            Define the Prisma Schema
+            Run Migration (this updates the datbase tables)
+            Create the Database Client Module ( refer src/db.ts)
+            Build Express Controllers and Routes (refer src/app.ts)       
 
     Working with 'axios' to make rest-api calls
     ------------------------------------------------
