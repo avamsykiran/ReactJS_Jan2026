@@ -660,6 +660,50 @@ ReactJS
                     removeOne(state, action)    Deletes a record by its ID string/number payload. 
                     removeMany(state, action)   Deletes multiple records based on an array of IDs. 
                     removeAll(state)            Completely empties the `ids` array and `entities` map.                
+    
+    Promise, async and await ?
+    ------------------------------------------------
+        Promise is a class w=that provides communication
+        between an asynchronous background operation and
+        a synchronous front-end.
+        
+        Every async method returns a promise object that allows to handle the return value or error.
+
+        const method1 = () => MAth.PI
+        const method2 = (a,b) => a+b
+
+        x = method1()
+        console.log(x);
+        y = method2()   //method2 will not start execution until method1 is complete
+        console.log(y);
+        
+        
+        const asynchronousMethod1 = async () => {
+            //here it must be a time consuming operation 
+            return Math.PI;
+        }
+
+        const method2 = (a,b) => a+b
+
+        p = asynchronousMethod1()   //here p is a promise
+        p.then( x => console.log(x); )
+            .catch( err => console.log(err); );
+
+        y = method2()               //method2 will not wait until asynchronousMethod1 is complete, 
+                                    but executes parellally
+        console.log(y);
+
+        const dummy =async () => {
+            x = await asynchronousMethod1()   
+            console.log(x);
+            y = method2()               //method2 will wait until asynchronousMethod1 is complete due to 'await', 
+                                        but executes parellally
+            console.log(y);
+        }
+
+        dummy();
+
+        Note: 'await' keyword can be used only inside the body of another async method.
 
     Building a REST API with Express.js and Prisma and SQLite
     ------------------------------------------------------------
@@ -753,55 +797,50 @@ ReactJS
         axios.post(url,respBody) : Promise<AxiosResponse>
         axios.delete(url) : Promise<AxiosResponse>
 
-    Promise, async and await ?
-    ------------------------------------------------
-        Promise is a class w=that provides communication
-        between an asynchronous background operation and
-        a synchronous front-end.
-        
-        Every async method returns a promise object that allows to handle the return value or error.
+        const endpoint = "http://localhost:8888/emps";
 
-        const method1 = () => MAth.PI
-        const method2 = (a,b) => a+b
-
-        x = method1()
-        console.log(x);
-        y = method2()   //method2 will not start execution until method1 is complete
-        console.log(y);
-        
-        
-        const asynchronousMethod1 = async () => {
-            //here it must be a time consuming operation 
-            return Math.PI;
+        const getEmployees = async () => {
+            try{
+                let data = axios.get<Employee[]>(endpoint);
+                //use the data...
+            }catch(err){
+                //handle the error
+            }
         }
-
-        const method2 = (a,b) => a+b
-
-        p = asynchronousMethod1()   //here p is a promise
-        p.then( x => console.log(x); )
-            .catch( err => console.log(err); );
-
-        y = method2()               //method2 will not wait until asynchronousMethod1 is complete, 
-                                    but executes parellally
-        console.log(y);
-
-        const dummy =async () => {
-            x = await asynchronousMethod1()   
-            console.log(x);
-            y = method2()               //method2 will wait until asynchronousMethod1 is complete due to 'await', 
-                                        but executes parellally
-            console.log(y);
-        }
-
-        dummy();
-
-        Note: 'await' keyword can be used only inside the body of another async method.
-
+   
     How a thunk works?
     -------------------------------------------------------
+
+                                db <--> rest-api
+                                            ↑
+                                      thunk-actions
+                                      ↓         ↑
+                store <--> redux-reducer <--> components
         
         'createAsyncThunk' from redux-tool-kit will create
-        special actions called thunk-actions. 
+        special actions called . 
+
+            createAsyncThunk
+                3 generic-args      return-type-of-the-thunk,parama-type-of-the-thunk,config-obj
+                2 parameters        unique-name-of-the-think,
+                                    the thunk function itself
+
+
+                const getEmployeesThunk = createAsyncThunk<Employee[],void,{}>(
+                    "empsSlcie/getEmployeesThunk",
+                    async () => {
+                        const resp = await axios.get<Employee[]>("http://localhost:9898/emps");
+                        return resp.data;
+                    }
+                );
+
+                Each thunk-call raises three events:
+                    (a) pending         when the rest-api call is made and the resposne is yet to come.
+                    (b) fulfilled       when the rest-api call completed successfully
+                    (c) error           when the rest-api call comes with a error-response
+
+                Any slice of the redux can listen to these events and update the state in the store
+                accordingly using extraReducers.     
 
             store -------------------------------------------
                 ↑               ↓                           ↓
@@ -812,6 +851,7 @@ ReactJS
                 |               |                           | dispatch(thunkAction)
                 |               |                           ↓
                 reducer(s) ←-----                    ------[async-thunk-action]------
+                extraReducer(s)                      |                              |
                         ↑                            |                              |
                         |←----send-a wait-signal-----|  dispatch(watiAction)        |
                         |                            |  axios-call                  |------> rest-api <---> database
