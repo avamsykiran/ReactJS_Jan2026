@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Consumer } from "../models/Consumer";
 import axios from "axios";
+import type { Consumer } from "../models/Consumer";
 
 const consmersEndPoint = "http://localhost:9999/consumers";
 

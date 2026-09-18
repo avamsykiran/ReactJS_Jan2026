@@ -1,19 +1,24 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl, FormGroup, FormLabel, FormText } from "react-bootstrap";
+import { Alert, Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl, FormGroup, FormLabel, FormText } from "react-bootstrap";
 import * as yup from "yup";
 import type { Consumer } from "../lib/models/Consumer";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addConsumer, updateConsumer } from "../lib/services/consumersSlice";
+import { addConsumer, updateConsumer } from "../lib/services/consumersThunks";
 import { useNavigate, useParams } from "react-router";
-import { selectConsumerById } from "../lib/services/selectors";
-import type { RootState } from "../lib/services/appStore";
+import { selectConsumerById, selectConsumerSliceErrMsg, selectConsumerSliceStatus } from "../lib/services/selectors";
+import type { AppDispatch, RootState } from "../lib/services/appStore";
 
 function ConsumerForm() {
 
     const { id } = useParams();
 
+    const dispatch : AppDispatch = useDispatch();
+    const navigate = useNavigate();
+
     const oldConsumer = useSelector((state:RootState) => selectConsumerById(state,Number(id)));
+    const status = useSelector(selectConsumerSliceStatus);
+    const errMsg = useSelector(selectConsumerSliceErrMsg);
 
     const isEditing = id ? true : false;
 
@@ -42,9 +47,6 @@ function ConsumerForm() {
         defaultValues: oldConsumer? {...oldConsumer} : {cid: 0,fullName: "",mobile: "",mailId: ""}
     })
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const save = (consumer: Consumer) => {
         isEditing ? dispatch(updateConsumer(consumer)) : dispatch(addConsumer(consumer));
         navigate("/cmrs");
@@ -57,6 +59,22 @@ function ConsumerForm() {
                     <h3>{isEditing?"Edit":"New"} Consumer</h3>
                 </CardHeader>
                 <CardBody>
+                    {
+                        status === "error" && (
+                            <Alert variant="danger">
+                                <strong>{errMsg} </strong>
+                            </Alert>
+                        )
+                    }
+
+                    {
+                        status === "pending" && (
+                            <Alert variant="info">
+                                <strong>Please wait while processing your request .. </strong>
+                            </Alert>
+                        )
+                    }
+
                     <FormGroup className="mb-1" controlId="cid">
                         <FormLabel>Consumer Id</FormLabel>
                         <FormControl type="number" {...register("cid")} />

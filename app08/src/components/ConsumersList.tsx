@@ -1,18 +1,26 @@
 
 import { Alert, Button, Card, CardBody, CardHeader, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteConsumer } from "../lib/services/consumersSlice";
-import { selectAllConsumers } from "../lib/services/selectors";
+import { selectAllConsumers, selectConsumerSliceErrMsg, selectConsumerSliceStatus } from "../lib/services/selectors";
 import { Link } from "react-router";
+import { useEffect } from "react";
+import { getAllConsumers, deleteConsumer} from "../lib/services/consumersThunks";
+import type { AppDispatch } from "../lib/services/appStore";
 
 function ConsumersList() {
 
     const consumers = useSelector(selectAllConsumers);
-    
-    const dispatch = useDispatch();
+    const status = useSelector(selectConsumerSliceStatus);
+    const errMsg = useSelector(selectConsumerSliceErrMsg);
 
-    const removeConsumer = (id:number) => dispatch(deleteConsumer(id));
-    
+    const dispatch : AppDispatch = useDispatch();
+
+    const removeConsumer = (id: number) => dispatch(deleteConsumer(id));
+
+    useEffect(() => {
+        dispatch(getAllConsumers())
+    }, []);
+
     return (
         <Card>
             <CardHeader>
@@ -20,11 +28,28 @@ function ConsumersList() {
             </CardHeader>
             <CardBody>
                 {
-                    !consumers || consumers.length === 0 ? (
+                    status === "error" && (
+                        <Alert variant="danger">
+                            <strong>{errMsg}</strong>
+                        </Alert>
+                    )
+                }
+                {
+                    status === "pending" && (
+                        <Alert variant="info">
+                            <strong>Please wait while loading data..!</strong>
+                        </Alert>
+                    )
+                }
+                {
+                    status === "ok" && (!consumers || consumers.length === 0) && (
                         <Alert variant="info">
                             <strong>No Consumers.</strong>
                         </Alert>
-                    ) : (
+                    )
+                }
+                {
+                    status === "ok" && consumers && consumers.length > 0 && (
                         <Table hover bordered striped>
                             <thead>
                                 <tr>
@@ -46,7 +71,7 @@ function ConsumersList() {
                                             <td>
                                                 <Link to={`/editcmr/${cx.cid}`} className="btn btn-sm me-1">
                                                     <i className="bi bi-pen" />
-                                                </Link> 
+                                                </Link>
                                                 <Button type="button" variant="danger" size="sm"
                                                     onClick={_e => removeConsumer(cx.cid)}>
                                                     <i className="bi bi-trash" />
